@@ -3,39 +3,77 @@ let next = document.getElementById('load_next')
 let prev = document.getElementById('load_prev')
 let issueName = document.getElementById('issuName')
 
-fetch('https://api.github.com/repositories/1296269/issues?page=$%7BpageNumberHere%7D&per_page=5')
+
+let pageNumberHere = 1;
+
+
+function updatingPageNumber(pageNumberHere){
+    fetch(`https://api.github.com/repositories/1296269/issues?page=${pageNumberHere}&per_page=5`)
     .then(response => response.json())
     .then((data) => {
         let issues  = data
+        issueName.innerText = ""
+        issues.forEach(issue => {
+            let li = document.createElement('li')
+            li.innerText = issue.title
+            issueName.appendChild(li)
 
-        let y = 0;
-        issueName.innerText = issues[y].title;
-
-        let x = 1;
+        })
         
-        if(x < 1){
-            x = 1;
-        }
-        pageNumber.innerText = x;
+        pageNumber.innerText = pageNumberHere;
         next.addEventListener("click",() => {
-            y++;
-            ++x;
-            if(x > issues.length){
-                x = issues.length
+            ++pageNumberHere;
+            if(pageNumberHere > issues.length){
+                pageNumberHere = issues.length
             }
-            issueName.innerText = issues[y].title;
-            pageNumber.innerText = x;
-
+            updatingPageNumber(pageNumberHere)
+            
+        
         })
         prev.addEventListener("click",() => {
-            if(y>0){
-                y--;
+            
+            if(pageNumberHere>1){
+                pageNumberHere--;
             }
-            if(x>1){
-                x--;
-            }
-            issueName.innerText = issues[y].title;
-            pageNumber.innerText = x;
-
+            updatingPageNumber(pageNumberHere)
+        
+        
         })
+        
     })
+
+}
+updatingPageNumber(pageNumberHere)
+
+
+//============>>>>>>>>>>>>>>>>>suprioyasoynfg<<<<<<<<<<<<<<<<<<<<========================================//
+// let pageNumber = 1;
+
+// document.getElementById("load_next").addEventListener("click", function() {
+//   pageNumber++;
+//   updatePage(pageNumber);
+// });
+
+// document.getElementById("load_prev").addEventListener("click", function() {
+//   if (pageNumber > 1) {
+//     pageNumber--;
+//     updatePage(pageNumber);
+//   }
+// });
+
+// function updatePage(pageNumber) {
+//   fetch(`https://api.github.com/repositories/1296269/issues?page=${pageNumber}&per_page=5`)
+//     .then(response => response.json())
+//     .then(data => {
+//       let issueList = document.getElementById("issue_list");
+//       issueList.innerHTML = "";
+//       data.forEach(function(issue) {
+//         let listItem = document.createElement("li");
+//         listItem.innerText = issue.title;
+//         issueList.appendChild(listItem);
+//       });
+//       document.getElementById("page_number").innerText = `Page Number ${pageNumber}`;
+//     });
+// }
+
+// updatePage(pageNumber);
