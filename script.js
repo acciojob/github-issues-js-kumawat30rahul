@@ -1,4 +1,4 @@
-let pageNumber = document.getElementById('pageNumber')
+let pageNumber = document.getElementById('page_number')
 let next = document.getElementById('load_next')
 let prev = document.getElementById('load_prev')
 let issueName = document.getElementById('issuName')
@@ -6,7 +6,24 @@ let issueName = document.getElementById('issuName')
 
 let pageNumberHere = 1;
 
+next.addEventListener("click",() => {
+    ++pageNumberHere;
+    if(pageNumberHere > 5){
+        pageNumberHere = 5
+    }
+    updatingPageNumber(pageNumberHere)
+    
 
+})
+prev.addEventListener("click",() => {
+            
+    if(pageNumberHere>1){
+        pageNumberHere--;
+    }
+    updatingPageNumber(pageNumberHere)
+
+
+})
 function updatingPageNumber(pageNumberHere){
     fetch(`https://api.github.com/repositories/1296269/issues?page=${pageNumberHere}&per_page=5`)
     .then(response => response.json())
@@ -19,26 +36,7 @@ function updatingPageNumber(pageNumberHere){
             issueName.appendChild(li)
 
         })
-        
-        pageNumber.innerText = pageNumberHere;
-        next.addEventListener("click",() => {
-            ++pageNumberHere;
-            if(pageNumberHere > issues.length){
-                pageNumberHere = issues.length
-            }
-            updatingPageNumber(pageNumberHere)
-            
-        
-        })
-        prev.addEventListener("click",() => {
-            
-            if(pageNumberHere>1){
-                pageNumberHere--;
-            }
-            updatingPageNumber(pageNumberHere)
-        
-        
-        })
+        pageNumber.innerText = `Page Number ${pageNumberHere}`;
         
     })
 
