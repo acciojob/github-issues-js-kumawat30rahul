@@ -30,12 +30,18 @@ function updateUser(pageNumber){
        list.innerHTML = ""
 
         data.map(issue => {
-          console.log(issue);
-          let stringRandom = randomNumber()
-          console.log(stringRandom);
           let olLists = document.createElement('li')
-          olLists.innerText = issue.title + stringRandom
-          list.appendChild(olLists)
+
+          
+            let stringRandom = randomNumber()
+            if(pageNumber === 1){
+              olLists.innerText = issue.title
+            }else{
+              olLists.innerText = issue.title + stringRandom
+            }
+            
+            list.appendChild(olLists)
+
         })
     })
 }
