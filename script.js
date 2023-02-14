@@ -27,15 +27,28 @@ function updateUser(pageNumber){
     .then(response => response.json())
     .then(data => {
        page.innerText = `Page number ${pageNumber}`
-       list.innerText = ""
+       list.innerHTML = ""
 
         data.map(issue => {
           console.log(issue);
+          let stringRandom = randomNumber()
+          console.log(stringRandom);
           let olLists = document.createElement('li')
-          olLists.innerText = issue.title
+          olLists.innerText = issue.title + stringRandom
           list.appendChild(olLists)
         })
     })
 }
 
 updateUser(pageNumbers)
+
+function randomNumber(){
+  let string = ""
+  let characters = "sdjfasliudgfbrgnvkjsiugd"
+  
+  for(let i = 0;i<3;i++){
+    let number = Math.floor(Math.random()*24)
+    string += characters.charAt(number)
+  }
+  return string
+}
